@@ -23,6 +23,7 @@ public class Consumer {
                             System.out.println("消费了队列" + queueName + " 的消息:" + message);
                         }
                     }, new CancelCallback() {
+
                         @Override
                         public void handle(String consumerTag) throws IOException {
 
