@@ -43,6 +43,7 @@ public class Producer {
             //5.准备消息内容
             String message = "hello simple";
             //6.发送消息给队列
+            //虽然没有指定交换机，但是一定会默认存在一个交换机
             channel.basicPublish("", queueName, null, message.getBytes());
             System.out.println("消息发送成功！");
         } catch (Exception e) {
