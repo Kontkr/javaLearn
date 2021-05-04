@@ -7,4 +7,8 @@ public interface IOrderService {
     Object makeOrderDirect(String userId,String goodId,int num);
 
     Object makeOrderTopic();
+
+    Object makeOrderTtlQueue();
+
+     Object makeOrderTtlMessage();
 }

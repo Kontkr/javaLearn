@@ -26,4 +26,12 @@ class RabbitmqProducerApplicationTest {
         orderService.makeOrderTopic();
     }
 
+    @Test
+    void startTtlQueue(){
+        for(int i = 0;i<10;i++)
+        orderService.makeOrderTtlQueue();}
+
+
+    @Test
+    void startTtlQueueMessage(){orderService.makeOrderTtlMessage();}
 }
