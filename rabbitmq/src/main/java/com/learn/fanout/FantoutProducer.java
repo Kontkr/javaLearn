@@ -7,8 +7,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 
-
-public class Producer {
+public class FantoutProducer {
 
     private void run(int num) {
         for (int i = 0; i < num; i++) {
@@ -22,6 +21,14 @@ public class Producer {
                         String exchangeName = "fanout_exchange";
                         channel.basicPublish(exchangeName, "", null, message.getBytes());
                         System.out.println("消息发送成功");
+
+                        //申明队列
+                        String queueName = "fanout_queue3";
+                        channel.queueDeclare(queueName, true, false, false, null);
+                        //将队列补丁交换机
+                        channel.queueBind(queueName, exchangeName, "");
+                        //发布信息
+                        channel.basicPublish(exchangeName, "", null, "new fanout Message".getBytes());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -31,6 +38,6 @@ public class Producer {
     }
 
     public static void main(String[] args) {
-        new Producer().run(5);
+        new FantoutProducer().run(5);
     }
 }
