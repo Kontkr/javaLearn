@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ExcelTest {
+public class ExcelExport {
 
     @Test
     public void XSSFTest() throws IOException {
@@ -55,12 +55,18 @@ public class ExcelTest {
             poiTempDir.mkdir();
         }
         TempFile.setTempFileCreationStrategy(new DefaultTempFileCreationStrategy(poiTempDir));
-        SXSSFWorkbook work = new SXSSFWorkbook(null, SXSSFWorkbook.DEFAULT_WINDOW_SIZE, true);
+
+        SXSSFWorkbook work = new SXSSFWorkbook();
+
+        //压缩临时文件
+        work.setCompressTempFiles(true);
+
+        //创建页签， 这一步做的最主要的事情时创建了一个临时文件
         SXSSFSheet sxxfSheet = work.createSheet("sxxfSheet");
         int maxRow = SpreadsheetVersion.EXCEL2007.getLastRowIndex();
         int maxCol = SpreadsheetVersion.EXCEL2007.getLastColumnIndex();
         for (int i = 0; i < maxRow; i++) {
-            //创建行
+            //创建行, 这一步会判断 放在内存中的数据是否超过阈值，如果超过 就往 临时文件中写入，所以 此时如果调用 getRow 几乎可以说是不准确的
             SXSSFRow row = sxxfSheet.createRow(i);
             for (int j = 0; j < 30; j++) {
                 //创建单元格
@@ -69,15 +75,13 @@ public class ExcelTest {
         }
         System.out.println("写入完成,file为：");
         File file = FileUtil.createFile("F:\\Temporary\\excel\\", ".xlsx");
+        //写入到此文件输出流中
         work.write(new FileOutputStream(file));
-        FileInputStream worksheetXMLInputStream = (FileInputStream) sxxfSheet.getWorksheetXMLInputStream();
-        FileDescriptor fd = worksheetXMLInputStream.getFD();
-        System.out.println("导出完成,file为：" + file.getName());
+        work.close();
+        //清理临时文件
+        work.dispose();
         System.out.println("导出耗时：" + (System.currentTimeMillis() - start));
-        while (true) {
-        }
 //        while(true){}
-
     }
 
 
@@ -95,6 +99,7 @@ public class ExcelTest {
         //写入到 Sheet
 //        ew.write(getVOBody(300000), sheet0);
 
+        //创建页签
         ew.write(getCustomBody(30000,10), sheet0);
 
         ew.finish();
