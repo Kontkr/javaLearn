@@ -65,11 +65,12 @@ public class ExcelExport {
         SXSSFSheet sxxfSheet = work.createSheet("sxxfSheet");
         int maxRow = SpreadsheetVersion.EXCEL2007.getLastRowIndex();
         int maxCol = SpreadsheetVersion.EXCEL2007.getLastColumnIndex();
-        for (int i = 0; i < maxRow; i++) {
+        for (int i = 0; i < 10; i++) {
             //创建行, 这一步会判断 放在内存中的数据是否超过阈值，如果超过 就往 临时文件中写入，所以 此时如果调用 getRow 几乎可以说是不准确的
             SXSSFRow row = sxxfSheet.createRow(i);
             for (int j = 0; j < 30; j++) {
                 //创建单元格
+                row.createCell(j);
                 row.createCell(j).setCellValue(i + "" + j);
             }
         }

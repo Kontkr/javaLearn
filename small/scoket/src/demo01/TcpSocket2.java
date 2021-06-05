@@ -14,7 +14,7 @@ import java.net.Socket;
  *             此类实现客户端套接字（也可以就叫“套接字”）。套接字是两台机器间通信的端点
  * 
  **/
-public class TcpSocket {
+public class TcpSocket2 {
 
 	public static void main(String[] args) {
 		try {
@@ -22,7 +22,7 @@ public class TcpSocket {
 			Socket sc = new Socket("127.0.0.1", 8888);
 			// 获取输出流向服务器发送数据
 			OutputStream os = sc.getOutputStream();
-			os.write("向服务器发送数据，我是客户端1".getBytes());
+			os.write("向服务器发送数据,我是客户端2".getBytes());
 			// 使用输入流获取服务器返回的数据
 			InputStream is = sc.getInputStream();
 			byte[] bytes = new byte[1024];

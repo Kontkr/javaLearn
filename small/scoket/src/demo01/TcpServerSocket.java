@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 /**
  * @author 天真无邪
@@ -26,6 +27,8 @@ public class TcpServerSocket {
 			while (true) {
 				// 每当客户端收到客户端请求时,服务器端将会产生一个对应的 Socket
 				Socket socket = ss.accept();
+
+				SocketAddress remoteSocketAddress = socket.getRemoteSocketAddress();
 				// 获取客户端的数据
 				InputStream is = socket.getInputStream();
 				byte[] bytes = new byte[1024];

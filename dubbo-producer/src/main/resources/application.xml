@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd
+       					   http://www.springframework.org/schema/context
+       					   http://www.springframework.org/schema/context/spring-context.xsd
+       					    http://www.springframework.org/schema/aop
+       					   http://www.springframework.org/schema/aop/spring-aop.xsd
+                             http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <bean id="providerService" class="com.learn.dubbo.producer.xml.ProviderServiceImpl"/>
+
+    <!-- 就是整个项目在分布式架构中的唯一名称，可以在 name 属性中配置，另外还可以配置 owner 字段，表示属于谁。-->
+    <dubbo:application name="producer01"/>
+
+    <!-- 配置注册中心的信息，比如，这里我们可以配置 zookeeper 作为我们的注册中心。address 是注册中心的地址，
+    这里我们配置的是 N/A 表示由 dubbo 自动分配地址。或者说是一种直连的方式，不通过注册中心。-->
+<!--        <dubbo:registry address="N/A"/>-->
+    <dubbo:registry address="zookeeper://localhost:2181" />
+
+    <!-- 用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受
+        服务发布的时候 dubbo 依赖什么协议，可以配置 dubbo、webserovice、Thrift、Hessain、http等协议。-->
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+
+    <!-- 监控中心配置， 用于配置连接监控中心相关信息，可以不配置，不是必须的参数。-->
+    <!--    <dubbo:monitor protocol="registry"/>-->
+
+    <!-- dubbo 服务配置，用于暴露一个服务，定义服务的元信息，一个服务可以用多个协议暴露，一个服务也可以注册到多个注册中心 -->
+    <dubbo:service interface="com.learn.dubbo.producer.xml.IProviderService" ref="providerService"/>
+
+</beans>
