@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
 import java.net.URLEncoder;
 
 @RestController
-public class DownLoadCOntroller {
+public class DownLoadController {
 
 
     @RequestMapping("/download")
@@ -26,6 +27,9 @@ public class DownLoadCOntroller {
         setResponseHeader(response, "CentOS-8-x86_64-1905-dvd1.iso");
 
         System.out.println("response header setting end!");
+
+        Integer integer = Integer.valueOf("12");
+
 
         byte[] row = new byte[4096];
         int count = bufferIn.read(row);
